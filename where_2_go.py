@@ -1,7 +1,7 @@
 from itertools import chain
 from random import randint
 
-from restconfig import dinner, brunch
+from restconfig import dinner, brunch, coffee
 
 
 def _combine_lists(*args):
@@ -12,6 +12,7 @@ def generate_rest_dict(choice: str) -> dict:
     restaurants = {
         "dinner": set(dinner),
         "brunch": set(brunch),
+        "coffee": set(coffee),
         "all": _combine_lists(dinner, brunch),
     }
     return {index: value for index, value in enumerate(restaurants.get(

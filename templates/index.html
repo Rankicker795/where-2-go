@@ -5,11 +5,17 @@
     <title>Title</title>
 </head>
 <body>
+  <center>
     <form action = "where_2_go" method="post">
         <p>Dinner, Brunch, or All?</p>
-        <p><input type="text" name="meal" /></p>
-        <p><input type="submit" value="submit" /></p>
+        <div style="display:inline-block">
+          <span><input type="submit" name="meal" value="Dinner" /></span>
+          <span><input type="submit" name="meal" value="Brunch" /></span>
+          <span><input type="submit" name="meal" value="All" /></span>
+          <span><input type="submit" name="meal" value="Coffee" /></span>
+        </div>
     </form>
+  </center>
 
 </body>
 </html>
