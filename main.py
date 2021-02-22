@@ -1,28 +1,27 @@
-from itertools import chain
-from random import randint
+from flask import Flask, redirect, url_for, request
+from where_2_go import *
 
-from restconfig import dinner, brunch
-
-
-def _combine_lists(*args):
-    return set(chain(*args))
+app = Flask(__name__)
 
 
-def generate_rest_dict(choice: str) -> dict:
-    restaurants = {
-        "dinner": set(dinner),
-        "brunch": set(brunch),
-        "all": _combine_lists(dinner, brunch),
-    }
-    return {index: value for index, value in enumerate(restaurants.get(
-        choice))}
+@app.route("/success/<location>")
+def success(location):
+    return f"where-2-go has chosen {location}"
 
 
-def make_random_choice(dict_) -> str:
-    r_int = randint(0, len(dict_.keys()) - 1)
-    return dict_.get(r_int)
+@app.route("/where-2-go", methods=["POST", "GET"])
+def index():
+    if request.method == "POST":
+        meal = request.form["meal"]
+        dict_ = generate_rest_dict(meal.strip().lower())
+        location = make_random_choice(dict_)
+        return redirect(url_for("success", location=location))
+    else:
+        meal = request.args.get("meal")
+        dict_ = generate_rest_dict(meal.strip().lower())
+        location = make_random_choice(dict_)
+        return redirect(url_for("success", location=location))
 
 
 if __name__ == "__main__":
-    d = generate_rest_dict(input("Dinner, Brunch, or All? ").strip().lower())
-    print(make_random_choice(d))
+    app.run(debug=True)
